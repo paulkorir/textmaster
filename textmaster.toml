@@ -1,0 +1,8 @@
+[main]
+# this table contains main configs
+
+[engines]
+# this table contains all engine configs including the list of applied engines
+applied_engines = [
+    'SentenceLengthEngine',
+]

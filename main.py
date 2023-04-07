@@ -1,11 +1,11 @@
 import argparse
 import sys
 
-from . import manager
+from . import managers, ui
 
 
 def main():
-    args = ui.cli.parse()
+    args = ui.parser.parse()
     manager.analyse(args)
     return 0
 

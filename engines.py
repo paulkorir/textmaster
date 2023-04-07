@@ -1,17 +1,13 @@
+import random
+
 from models import Engine, Score
 
 
 class SentenceLengthEngine(Engine):
     """Heuristic to analyse sentence length"""
+    name = 'mean sentence length'
 
-    def __init__(self, name='mean sentence length'):
-        self._name = name
-
-    def proc(self, file):
-        score = self._calculate_mean_sentence_length(file)
-        return score
-
-    def _calculate_mean_sentence_length(self, file):
+    def _calc(self, file):
         sentences = self.get_sentences(file)
         sentence_lengths = list()
         for sentence in sentences:
@@ -19,4 +15,18 @@ class SentenceLengthEngine(Engine):
         import statistics
         mean = statistics.mean(sentence_lengths)
         score = Score(self, value=mean)
+        return score
+
+
+class NominalisationRatioEngine(Engine):
+    """The proportion of words ending in -ion"""
+    name = 'nominalisation ratio'
+
+    def _calc(self, file):
+        # for each word, check if it is nominalised
+        words = self.get_words(file)
+        print(f"{words = }")
+        nominalisation_words = list(filter(lambda w: w.endswith('ion'), words))
+        nominalisation_ratio = len(nominalisation_words) / len(words)
+        score = Score(self, value=nominalisation_ratio)
         return score
